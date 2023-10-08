@@ -1,0 +1,23 @@
+{% apply spaceless %}
+<!doctype html>
+<html>
+<head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>{{ settings.title }}</title>
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+	<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.css }}"/>
+	<script>active_page="recent_media"</script>
+
+	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
+	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
+	{% include 'header.html' %}
+</head>
+<body>
+	{% for post in recent_media %}
+	<a href="{{ post.link }}">
+		<img src="{{ post.src }}" style="width:{{ post.thumbwidth }}px;height:{{ post.thumbheight }}px" data-width={{ post.thumbwidth }} data-height={{ post.thumbheight }}>
+	</a>
+	{% endfor %}
+</body>
+</html>
+{% endapply %}
