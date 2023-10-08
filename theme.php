@@ -47,7 +47,7 @@
 
 			foreach (listBoards() as $board) {
                 $b_uri = $board['uri'];
-                
+
 				if (in_array($b_uri, $this->excluded)) {
 					continue;
                 };
@@ -61,9 +61,7 @@
 
 			$query = query($query) or error(db_error());
 
-            $media_limit = (int)$settings['limit_media'];
-
-            $recent_media = pick_media($query);
+            $recent_media = $this->pick_media($query, $settings);
 
 			return Element('themes/recent_media/recent_media.html', Array(
 				'settings' => $settings,
@@ -75,8 +73,9 @@
         public function pick_media($query, $settings) {
             global $config;
 
+            $media_limit = (int)$settings['limit_media'];
             $recent_media = Array();
-            
+
             while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
 
@@ -111,7 +110,7 @@
 			};
 
             return $recent_media;
-        };
+        }
 	};
 
 ?>
