@@ -13,18 +13,33 @@
             return;
         };
 
-		$b = new RecentMedia();
-		$b->build($action, $settings);
-	}
+        try {
+            $b = new RecentMedia();
+            $b->build($action, $settings);
+        }
+        catch (Exception $e) {
+            error_log("vichan_theme_recent_media: " . $e->getMessage());
+        };
+    }
 
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
 	class RecentMedia {
+        public function get_template_html_path() {
+            // compute relative path to vichan-root/templates/.
+
+            $path = dirname(__FILE__);
+            $pos = strrpos($path, '/templates/themes/');
+            if ($pos === false) {
+                return 'templates/themes/recent_media/recent_media.html';
+            };
+
+            $p = substr($path, $pos + strlen('/templates/'));
+            $p .= '/recent_media.html';
+            return $p;
+        }
+
 		public function build($action, $settings) {
 			global $config;
-
-			// if ($action == 'all') {
-            // copy('templates/themes/recent_media/' . $settings['basecss'], $config['dir']['home'] . $settings['css']);
-            // }
 
 			$this->excluded = explode(' ', $settings['exclude']);
 
@@ -63,7 +78,8 @@
 
             $recent_media = $this->pick_media($query, $settings);
 
-			return Element('themes/recent_media/recent_media.html', Array(
+            $template_path = $this->get_template_html_path();
+			return Element($template_path, Array(
 				'settings' => $settings,
 				'config' => $config,
 				'recent_media' => $recent_media,

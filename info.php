@@ -34,10 +34,10 @@ $theme['config'][] = Array(
 
 $theme['config'][] = Array(
   'title' => 'CSS file',
-  'name' => 'css',
+  'name' => 'refcss',
   'type' => 'text',
-  'default' => 'recent_media.css',
-  'comment' => '(eg. "recent_media.css")'
+  'default' => '',
+  'comment' => '(css referenced by HTML file. relative path from vichan-root($config[\'root\']))'
 );
 
 $theme['config'][] = Array(
