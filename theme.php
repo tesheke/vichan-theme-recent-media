@@ -66,13 +66,17 @@
 				if (in_array($b_uri, $this->excluded)) {
 					continue;
                 };
-				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `files` IS NOT NULL UNION ALL ", $b_uri, $b_uri);
+                $query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` ", $b_uri, $b_uri)
+                       . "WHERE `files` LIKE '%\"type\":\"image\\\\\\\\\\\\/%' "
+                       . "   OR `files` LIKE '%\"type\":\"video\\\\\\\\\\\\/%' "
+                       . "UNION ALL ";
 			};
-			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_media'], $query);
 
 			if ($query == '') {
 				error(_("Can't build the RecentMedia theme, because there are no boards to be fetched."));
 			};
+
+            $query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_media'], $query);
 
 			$query = query($query) or error(db_error());
 
