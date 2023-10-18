@@ -2,10 +2,12 @@
 $theme = Array();
 
 // Theme name
-$theme['name'] = 'RecentMedia';
+$theme['name'] = 'RecentMedia(dir:' . basename(dirname(__FILE__)) . ')';
 // Description (you can use Tinyboard markup here)
-$theme['description'] = 'Show recent media. (default /recent_media.html ). After updating this theme, please "Rebuild Tehemes" in "mod.php/?/rebuild".';
-$theme['version'] = 'v2023.10.08';
+$theme['description'] = '- Show recent media (default /recent_media.html).
+- (After updating this theme, please "Rebuild Tehemes" in "mod.php/?/rebuild".)
+- (You can run multiple RecentMedia on one vichan instance by duplicating this theme folder.)';
+$theme['version'] = 'v2023.10.18';
 
 // Theme configuration
 $theme['config'] = Array();
@@ -41,15 +43,32 @@ $theme['config'][] = Array(
 );
 
 $theme['config'][] = Array(
+  'title' => 'Inline CSS',
+  'name' => 'inlinecss',
+  'type' => 'text',
+  'default' => '',
+  'comment' => '(css expression referenced by HTML file.)'
+);
+
+
+$theme['config'][] = Array(
+  'title' => 'Use vichan CSS',
+  'name' => 'use_vichan_css',
+  'type' => 'text',
+  'default' => '1',
+  'comment' => '(1:yes, 0:no)'
+);
+
+$theme['config'][] = Array(
   'title' => 'HTML file',
   'name' => 'html',
   'type' => 'text',
   'default' => 'recent_media.html',
-  'comment' => '(eg. "recent_media.html")'
+  'comment' => '(output destination. eg. "recent_media.html")'
 );
 
 // Unique function name for building everything
-$theme['build_function'] = 'recent_media_build';
+$theme['build_function'] = 'RecentMedia::build';
 $theme['install_callback'] = 'recent_media_install';
 
 if (!function_exists('recent_media_install')) {

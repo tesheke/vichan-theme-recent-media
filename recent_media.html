@@ -8,6 +8,8 @@
 
 	{% if settings.refcss != '' %}<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.refcss }}"/>{% endif %}
 
+	<style>{{ settings.inlinecss }}</style>
+
 	<script>active_page="recent_media"</script>
 
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
