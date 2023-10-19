@@ -5,9 +5,9 @@ $theme = Array();
 $theme['name'] = 'RecentMedia(dir:' . basename(dirname(__FILE__)) . ')';
 // Description (you can use Tinyboard markup here)
 $theme['description'] = '- Show recent media (default /recent_media.html).
-- (After updating this theme, please "Rebuild Tehemes" in "mod.php/?/rebuild".)
+- (After updating this theme or editing template html, please "Rebuild Tehemes" and "Flush cache" in "mod.php/?/rebuild".)
 - (You can run multiple RecentMedia on one vichan instance by duplicating this theme folder.)';
-$theme['version'] = 'v2023.10.18';
+$theme['version'] = 'v2023.10.19';
 
 // Theme configuration
 $theme['config'] = Array();
@@ -39,7 +39,7 @@ $theme['config'][] = Array(
   'name' => 'refcss',
   'type' => 'text',
   'default' => '',
-  'comment' => '(css referenced by HTML file. relative path from vichan-root($config[\'root\']))'
+  'comment' => '(CSS file referenced by output HTML. relative path from vichan-root($config[\'root\']))'
 );
 
 $theme['config'][] = Array(
@@ -47,16 +47,15 @@ $theme['config'][] = Array(
   'name' => 'inlinecss',
   'type' => 'text',
   'default' => '',
-  'comment' => '(css expression referenced by HTML file.)'
+  'comment' => '(CSS expression embedded in output HTML.)'
 );
 
-
 $theme['config'][] = Array(
-  'title' => 'Use vichan CSS',
-  'name' => 'use_vichan_css',
-  'type' => 'text',
+  'title' => 'Use vichan header.html',
+  'name' => 'use_vichan_header',
+  'type' => 'checkbox',
   'default' => '1',
-  'comment' => '(1:yes, 0:no)'
+  'comment' => '(include header.html template)'
 );
 
 $theme['config'][] = Array(
@@ -64,7 +63,23 @@ $theme['config'][] = Array(
   'name' => 'html',
   'type' => 'text',
   'default' => 'recent_media.html',
-  'comment' => '(output destination. eg. "recent_media.html")'
+  'comment' => '(output destination. eg. "recent_media.html".  relative path from vichan-root($config[\'root\']))'
+);
+
+$theme['config'][] = Array(
+  'title' => 'This theme dir',
+  'name' => 'themedir',
+  'type' => 'text',
+  'default' => dirname(__FILE__),
+  'comment' => ''
+);
+
+$theme['config'][] = Array(
+  'title' => 'Files sort asc',
+  'name' => 'files_sort_asc',
+  'type' => 'checkbox',
+  'default' => '1',
+  'comment' => '(sort order of files within a single post. checked:ascending, unchecked:descending)'
 );
 
 // Unique function name for building everything

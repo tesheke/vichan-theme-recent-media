@@ -24,10 +24,10 @@ if (!class_exists('RecentMedia')) {
 			};
 		}
 
-		public function get_template_html_path() {
+		public function get_template_html_path($config, $settings) {
 			// compute relative path to vichan-root/templates/.
 
-			$path = dirname(__FILE__);
+			$path = $settings['themedir'];
 			$pos = strrpos($path, '/templates/themes/');
 			if ($pos === false) {
 				return 'templates/themes/recent_media/recent_media.html';
@@ -82,7 +82,7 @@ if (!class_exists('RecentMedia')) {
 
 			$recent_media = $this->pick_media($query, $settings);
 
-			$template_path = $this->get_template_html_path();
+			$template_path = $this->get_template_html_path($config, $settings);
 			return Element($template_path, Array(
 				'settings' => $settings,
 				'config' => $config,
@@ -104,6 +104,10 @@ if (!class_exists('RecentMedia')) {
 				};
 
 				$files = json_decode($post['files']);
+
+				if ($settings['files_sort_asc'] !== '1') {
+					$files = array_reverse($files);
+				};
 
 				foreach ($files as $postfile) {
 					if ($postfile->file == 'deleted'

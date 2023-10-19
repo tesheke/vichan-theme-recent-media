@@ -2,21 +2,20 @@
 <!doctype html>
 <html>
 <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>{{ settings.title }}</title>
-	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
 
-	{% if settings.refcss != '' %}<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.refcss }}"/>{% endif %}
+	{% if settings.refcss != '' %}
+	<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.refcss }}"/>
+	{% endif %}
 
 	<style>{{ settings.inlinecss }}</style>
 
 	<script>active_page="recent_media"</script>
 
-	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
-
-	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
-
-	{% include 'header.html' %}
+	{% if settings.use_vichan_header == '1' %}
+		{% include 'header.html' %}
+	{% endif %}
 </head>
 <body class="recent_media">
 	{% for post in recent_media %}
