@@ -25,7 +25,7 @@ if (!class_exists('RecentMedia')) {
 		}
 
 		public function get_template_html_path($config, $settings) {
-			// compute relative path to vichan-root/templates/.
+			// compute relative path from vichan-root/templates/.
 
 			$path = $settings['themedir'];
 			$pos = strrpos($path, '/templates/themes/');
