@@ -30,27 +30,32 @@ if (!class_exists('RecentMedia')) {
 			$path = $settings['themedir'];
 			$pos = strrpos($path, '/templates/themes/');
 			if ($pos === false) {
-				return 'templates/themes/recent_media/recent_media.html';
+				return 'templates/themes/recent_media/' . $settings['template'];
 			};
 
 			$p = substr($path, $pos + strlen('/templates/'));
-			$p .= '/recent_media.html';
+			$p .= '/' . $settings['template'];
 			return $p;
 		}
 
 		public function build_main($action, $settings) {
 			global $config;
 
-			$this->excluded = explode(' ', $settings['exclude']);
+			try {
+				$this->excluded = explode(' ', $settings['exclude']);
 
-			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
-				$action = generation_strategy('sb_recent_media', array());
-				if ($action == 'delete') {
-					file_unlink($config['dir']['home'] . $settings['html']);
-				}
-				elseif ($action == 'rebuild') {
-					file_write($config['dir']['home'] . $settings['html'], $this->generate_html($settings));
+				if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
+					$action = generation_strategy('sb_recent_media', array());
+					if ($action == 'delete') {
+						file_unlink($config['dir']['home'] . $settings['html']);
+					}
+					elseif ($action == 'rebuild') {
+						file_write($config['dir']['home'] . $settings['html'], $this->generate_html($settings));
+					};
 				};
+			}
+			catch (Exception $e) {
+				file_write($config['dir']['home'] . $settings['html'], $e->getMessage());
 			};
 		}
 

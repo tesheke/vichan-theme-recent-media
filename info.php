@@ -67,6 +67,14 @@ $theme['config'][] = Array(
 );
 
 $theme['config'][] = Array(
+  'title' => 'HTML template',
+  'name' => 'template',
+  'type' => 'text',
+  'default' => 'template.html',
+  'comment' => '(input source. relative path from this theme directory.)'
+);
+
+$theme['config'][] = Array(
   'title' => 'This theme dir',
   'name' => 'themedir',
   'type' => 'text',
