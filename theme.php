@@ -110,6 +110,10 @@ if (!class_exists('RecentMedia')) {
 
 				$files = json_decode($post['files']);
 
+				if (is_null($files)) {
+					continue;
+				};
+
 				if ($settings['files_sort_asc'] !== '1') {
 					$files = array_reverse($files);
 				};
