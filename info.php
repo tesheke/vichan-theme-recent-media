@@ -5,9 +5,9 @@ $theme = Array();
 $theme['name'] = 'RecentMedia(dir:' . basename(dirname(__FILE__)) . ')';
 // Description (you can use Tinyboard markup here)
 $theme['description'] = '- Show recent media (default /recent_media.html).
-- (After updating this theme or editing template html, please "Rebuild Tehemes" and "Flush cache" in "mod.php/?/rebuild".)
+- (After updating this theme or editing template html, please "Rebuild Tehemes" and "Flush cache" in "mod.php?/rebuild".)
 - (You can run multiple RecentMedia on one vichan instance by duplicating this theme folder.)';
-$theme['version'] = 'v2023.10.19';
+$theme['version'] = 'v2024.01.11';
 
 // Theme configuration
 $theme['config'] = Array();

@@ -127,11 +127,12 @@ if (!class_exists('RecentMedia')) {
 
 					$pass = Array();
 
-					// $board['dir']
+					$pass['isvideo'] = str_starts_with($postfile->type, 'video');
 					$pass['link'] = $config['root'] . $post['board'] . '/' . $config['dir']['res']
 					. link_for($post) . '#' . $post['id'];
 
-					$pass['src'] = $config['root'] . $post['board'] . '/' . $config['dir']['thumb'] . $postfile->thumb;
+					$pass['srcimg'] = $config['root'] . $post['board'] . '/' . $config['dir']['img'] . $postfile->file;
+					$pass['thumbimg'] = $config['root'] . $post['board'] . '/' . $config['dir']['thumb'] . $postfile->thumb;
 					$pass['thumbwidth'] = $postfile->thumbwidth;
 					$pass['thumbheight'] = $postfile->thumbheight;
 

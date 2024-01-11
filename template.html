@@ -9,6 +9,24 @@
 	<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.refcss }}"/>
 	{% endif %}
 
+	<style>
+		.recent_media a {
+		    position: relative
+		}
+
+		.recent_media a span {
+		    position: absolute;
+		    right: 1px;
+		    bottom: 1px;
+		    color: white;
+		    text-shadow: black 1px 1px, black -1px -1px;
+		    font-size: 40px;
+		}
+
+		.recent_media div {
+		    display: inline-block;
+		}
+	</style>
 	<style>{{ settings.inlinecss }}</style>
 
 	<script>active_page="recent_media"</script>
@@ -19,9 +37,16 @@
 </head>
 <body class="recent_media">
 	{% for post in recent_media %}
-	<a href="{{ post.link }}">
-		<img src="{{ post.src }}" width={{ post.thumbwidth }} height={{ post.thumbheight }}>
-	</a>
+	<div>
+		<a href="{{ post.srcimg }}">
+			<img src="{{ post.thumbimg }}" width={{ post.thumbwidth }} height={{ post.thumbheight }}>
+			{% if post.isvideo %}
+			<span>▶</span>
+			{% endif %}
+		</a>
+		<br>
+		<a href="{{ post.link }}">post</a>
+	</div>
 	{% endfor %}
 </body>
 </html>
