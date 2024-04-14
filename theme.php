@@ -38,11 +38,28 @@ if (!class_exists('RecentMedia')) {
 			return $p;
 		}
 
+        static function explode_noempty($str) {
+            return array_filter(explode(' ', $str), function($x) {
+                return $x !== '';
+            });
+        }
+
+        static function join_path() {
+            $paths = array();
+
+            foreach (func_get_args() as $arg) {
+                if ($arg !== '') { $paths[] = $arg; }
+            }
+
+            return preg_replace('#/+#','/',join('/', $paths));
+        }
+
 		public function build_main($action, $settings) {
 			global $config;
 
 			try {
-				$this->excluded = explode(' ', $settings['exclude']);
+				$this->excluded = self::explode_noempty($settings['exclude']);
+				$this->included = self::explode_noempty($settings['include']);
 
 				if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
 					$action = generation_strategy('sb_recent_media', array());
@@ -55,7 +72,8 @@ if (!class_exists('RecentMedia')) {
 				};
 			}
 			catch (Exception $e) {
-				file_write($config['dir']['home'] . $settings['html'], $e->getMessage());
+                $outputpath = join_path($config['dir']['home'], $settings['html']);
+				file_write($outputpath, $e->getMessage());
 			};
 		}
 
@@ -68,9 +86,16 @@ if (!class_exists('RecentMedia')) {
 			foreach (listBoards() as $board) {
 				$b_uri = $board['uri'];
 
+                if (0 !== count($this->included)) {
+                    if (!in_array($b_uri, $this->included)) {
+                        continue;
+                    };
+                };
+
 				if (in_array($b_uri, $this->excluded)) {
 					continue;
 				};
+
 				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` ", $b_uri, $b_uri)
 					   . "WHERE `files` LIKE '%\"type\":\"image\\\\\\\\\\\\/%' "
 					   . "   OR `files` LIKE '%\"type\":\"video\\\\\\\\\\\\/%' "
@@ -78,7 +103,7 @@ if (!class_exists('RecentMedia')) {
 			};
 
 			if ($query == '') {
-				error(_("Can't build the RecentMedia theme, because there are no boards to be fetched."));
+				error(_("Can't build the RecentMedia theme, because there are no boards to be fetched. Check 'Included boards' and 'Excluded boards'"));
 			};
 
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_media'], $query);
@@ -128,11 +153,25 @@ if (!class_exists('RecentMedia')) {
 					$pass = Array();
 
 					$pass['isvideo'] = str_starts_with($postfile->type, 'video');
-					$pass['link'] = $config['root'] . $post['board'] . '/' . $config['dir']['res']
-					. link_for($post) . '#' . $post['id'];
 
-					$pass['srcimg'] = $config['root'] . $post['board'] . '/' . $config['dir']['img'] . $postfile->file;
-					$pass['thumbimg'] = $config['root'] . $post['board'] . '/' . $config['dir']['thumb'] . $postfile->thumb;
+					$pass['link'] = self::join_path(
+                        $config['root'],
+                        $post['board'],
+                        $config['dir']['res'],
+                        link_for($post) . '#' . $post['id']);
+
+					$pass['srcimg'] = self::join_path(
+                        $config['root'],
+                        $post['board'],
+                        $config['dir']['img'],
+                        $postfile->file);
+
+					$pass['thumbimg'] = self::join_path(
+                        $config['root'],
+                        $post['board'],
+                        $config['dir']['thumb'],
+                        $postfile->thumb);
+
 					$pass['thumbwidth'] = $postfile->thumbwidth;
 					$pass['thumbheight'] = $postfile->thumbheight;
 

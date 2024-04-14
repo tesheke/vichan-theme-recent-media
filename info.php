@@ -20,6 +20,14 @@ $theme['config'][] = Array(
 );
 
 $theme['config'][] = Array(
+  'title' => 'Included boards',
+  'name' => 'include',
+  'type' => 'text',
+  'default' => '',
+  'comment' => '(space seperated. all if empty)'
+);
+
+$theme['config'][] = Array(
   'title' => 'Excluded boards',
   'name' => 'exclude',
   'type' => 'text',
@@ -63,7 +71,7 @@ $theme['config'][] = Array(
   'name' => 'html',
   'type' => 'text',
   'default' => 'recent_media.html',
-  'comment' => '(output destination. eg. "recent_media.html".  relative path from vichan-root($config[\'root\']))'
+  'comment' => '(output. eg. "recent_media.html".  relative path from vichan-root($config[\'root\']))'
 );
 
 $theme['config'][] = Array(
@@ -71,7 +79,7 @@ $theme['config'][] = Array(
   'name' => 'template',
   'type' => 'text',
   'default' => 'template.html',
-  'comment' => '(input source. relative path from this theme directory.)'
+  'comment' => '(input. relative path from this theme directory.)'
 );
 
 $theme['config'][] = Array(
@@ -79,7 +87,7 @@ $theme['config'][] = Array(
   'name' => 'themedir',
   'type' => 'text',
   'default' => dirname(__FILE__),
-  'comment' => ''
+  'comment' => '(don\'t change)'
 );
 
 $theme['config'][] = Array(
